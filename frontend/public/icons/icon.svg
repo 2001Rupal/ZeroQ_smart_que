@@ -1,0 +1,23 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="112" fill="#0b101b"/>
+  <rect x="16" y="16" width="480" height="480" rx="96" stroke="#1e293b" stroke-width="8" fill="none"/>
+  
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#0b101b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="256" cy="256" r="200" fill="url(#glow)"/>
+  <circle cx="256" cy="256" r="160" stroke="#3b82f6" stroke-width="12" stroke-dasharray="24 24" opacity="0.4"/>
+  <circle cx="256" cy="256" r="120" stroke="#60a5fa" stroke-width="16" opacity="0.7"/>
+
+  <rect x="160" y="160" width="192" height="192" rx="48" fill="url(#brandGrad)"/>
+  <text x="256" y="285" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="104" font-weight="900" letter-spacing="-4">ZQ</text>
+  <circle cx="326" cy="186" r="16" fill="#34d399" stroke="#0b101b" stroke-width="6"/>
+</svg>

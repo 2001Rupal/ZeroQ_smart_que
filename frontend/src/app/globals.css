@@ -1,0 +1,354 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-primary: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --background: #f8fafc;
+    --foreground: #0f172a;
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+    --border: #e2e8f0;
+    --border-subtle: #f1f5f9;
+    --muted: #64748b;
+  }
+
+  body {
+    font-family: var(--font-primary);
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  code,
+  pre,
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Professional Enterprise Cards & Panels */
+.panel-base {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.05);
+}
+
+.panel-dark {
+  background: #090d16;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+.glass-panel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.04);
+}
+
+.glass-panel-dark {
+  background: #0d121f;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.25);
+}
+
+/* Keyboard Shortcut Key Pill (Standard kbd styling) */
+kbd,
+.kbd-pill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #94a3b8;
+}
+
+html.light kbd,
+html.light .kbd-pill,
+[data-theme='light'] kbd,
+[data-theme='light'] .kbd-pill {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+/* Boarding Pass Perforated Ticket Notches */
+.ticket-notch-left {
+  position: absolute;
+  top: 50%;
+  left: -12px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background-color: var(--background);
+  border-radius: 9999px;
+  z-index: 10;
+}
+
+.ticket-notch-right {
+  position: absolute;
+  top: 50%;
+  right: -12px;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background-color: var(--background);
+  border-radius: 9999px;
+  z-index: 10;
+}
+
+/* Print Styles for QR Standee Posters */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #qr-standee-poster,
+  #qr-standee-poster * {
+    visibility: visible;
+  }
+
+  #qr-standee-poster {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 2.5rem;
+    box-shadow: none;
+    border: 2px solid #0f172a !important;
+  }
+}
+
+/* Page Container & Theming */
+.page-container {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #080c16;
+  color: #f1f5f9;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+html.light,
+[data-theme='light'] {
+  color-scheme: light;
+}
+
+html.light body,
+[data-theme='light'] body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+html.light .page-container,
+[data-theme='light'] .page-container,
+.theme-light .page-container {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+html.light div.min-h-screen,
+html.light div.min-h-full,
+[data-theme='light'] div.min-h-screen,
+[data-theme='light'] div.min-h-full {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* ===================================================
+   SIDEBAR: ALWAYS PERMANENT DARK THEME (HIGH CONTRAST)
+   =================================================== */
+aside,
+html.light aside,
+[data-theme='light'] aside {
+  background-color: #0b101b !important;
+  border-color: #1e293b !important;
+  color: #f8fafc !important;
+}
+
+aside header,
+html.light aside header,
+aside div[class*="border-t"],
+html.light aside div[class*="border-t"],
+aside div[class*="border-b"],
+html.light aside div[class*="border-b"] {
+  border-color: #1e293b !important;
+}
+
+/* Category Headers (Workspace, Counter Desks, Portals) */
+aside p,
+html.light aside p,
+aside span.section-title,
+html.light aside span.section-title {
+  color: #94a3b8 !important;
+  font-weight: 700 !important;
+}
+
+/* Sidebar Links (Normal / Inactive) - Crystal clear silver text */
+aside a,
+html.light aside a {
+  color: #e2e8f0 !important;
+}
+
+aside a:hover,
+html.light aside a:hover {
+  color: #ffffff !important;
+  /*background-color: rgba(255, 255, 255, 0.08) !important;*/
+}
+
+/* Sidebar Icons */
+aside svg,
+html.light aside svg {
+  color: #94a3b8 !important;
+}
+
+aside a:hover svg,
+html.light aside a:hover svg {
+  color: #ffffff !important;
+}
+
+/* Active Workspace & Settings Links */
+aside a.active-blue,
+aside a[class*="bg-blue-600"],
+html.light aside a.active-blue,
+html.light aside a[class*="bg-blue-600"] {
+  background-color: rgba(37, 99, 235, 0.25) !important;
+  border-color: rgba(59, 130, 246, 0.5) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+aside a.active-blue svg,
+aside a[class*="bg-blue-600"] svg,
+html.light aside a.active-blue svg,
+html.light aside a[class*="bg-blue-600"] svg {
+  color: #60a5fa !important;
+}
+
+/* Active Counter Desks */
+aside a.active-emerald,
+aside a[class*="bg-emerald-600"],
+html.light aside a.active-emerald,
+html.light aside a[class*="bg-emerald-600"] {
+  background-color: rgba(5, 150, 105, 0.25) !important;
+  border-color: rgba(16, 185, 129, 0.5) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+aside a.active-emerald svg,
+aside a[class*="bg-emerald-600"] svg,
+html.light aside a.active-emerald svg,
+html.light aside a[class*="bg-emerald-600"] svg {
+  color: #34d399 !important;
+}
+
+/* Brand Text in Sidebar Header */
+aside .brand-title,
+html.light aside .brand-title {
+  color: #ffffff !important;
+}
+
+aside .brand-sub,
+html.light aside .brand-sub {
+  color: #94a3b8 !important;
+}
+
+/* ===================================================
+   LIGHT MODE CONTENT OVERRIDES (SCOPED TO MAIN ONLY)
+   =================================================== */
+html.light main .glass-panel-dark,
+[data-theme='light'] main .glass-panel-dark {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.06) !important;
+  color: #0f172a !important;
+}
+
+html.light main .panel-dark {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+/* Text Overrides for light mode (main content only, strictly excluding aside) */
+html.light main h1,
+html.light main h2,
+html.light main h3,
+html.light main h4 {
+  color: #0f172a !important;
+}
+
+html.light main .text-white {
+  color: #0f172a !important;
+}
+
+html.light main .text-slate-100,
+html.light main .text-slate-200,
+html.light main .text-slate-300 {
+  color: #1e293b !important;
+}
+
+html.light main .text-slate-400,
+html.light main .text-slate-500 {
+  color: #475569 !important;
+}
+
+/* Background surfaces in light mode (scoped to main only) */
+html.light main .bg-slate-900,
+html.light main .bg-slate-950,
+html.light main .bg-\[\#0e1628\],
+html.light main .bg-\[\#080e1e\],
+html.light main .bg-\[\#0c1222\],
+html.light main .bg-\[\#060b19\],
+html.light main .bg-\[\#080c16\],
+html.light main .bg-\[\#0d121f\] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light main .bg-slate-900\/60,
+html.light main .bg-slate-900\/70,
+html.light main .bg-slate-900\/80,
+html.light main .bg-slate-900\/90,
+html.light main .bg-slate-950\/60,
+html.light main .bg-slate-950\/80,
+html.light main .bg-slate-950\/90 {
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light main .bg-slate-800,
+html.light main .bg-slate-800\/60,
+html.light main .bg-slate-800\/80 {
+  background-color: #f1f5f9 !important;
+  color: #1e293b !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light main .border-slate-800,
+html.light main .border-slate-700,
+html.light main .border-slate-800\/80,
+html.light main .border-slate-800\/90,
+html.light main .border-slate-700\/80,
+html.light main .border-slate-700\/60 {
+  border-color: #e2e8f0 !important;
+}
+
+html.light input,
+html.light select,
+html.light textarea {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94a3b8 !important;
+}

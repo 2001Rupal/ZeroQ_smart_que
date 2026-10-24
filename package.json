@@ -1,0 +1,24 @@
+{
+  "name": "virtual-qr-queue-platform",
+  "version": "1.0.0",
+  "description": "Zero-friction, real-time Virtual QR Queue Platform with Socket.io, Next.js, and MongoDB",
+  "scripts": {
+    "start": "npm run start:backend",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm start",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "test:backend": "cd backend && npm test",
+    "build:frontend": "cd frontend && npm run build"
+  },
+  "keywords": [
+    "qr-queue",
+    "socket-io",
+    "mongodb",
+    "nextjs",
+    "virtual-queue",
+    "concurrency-locking"
+  ],
+  "author": "Antigravity Engineering",
+  "license": "ISC"
+}
