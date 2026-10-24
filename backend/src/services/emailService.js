@@ -14,16 +14,37 @@ function getTransporter() {
 
   const { host, port, secure, user, pass } = config.email;
 
-  if (host && user && pass && !user.includes('mock') && !host.includes('example')) {
+  if (user && pass && !user.includes('mock') && !user.includes('example')) {
     try {
-      transporter = nodemailer.createTransport({
-        host,
-        port,
-        secure,
-        auth: { user, pass },
-        tls: { rejectUnauthorized: false }
-      });
-      console.log(`✉️ Email Transporter connected to SMTP: ${host}:${port}`);
+      const isGmail = (host && host.includes('gmail')) || (user && user.endsWith('@gmail.com'));
+
+      if (isGmail) {
+        // Cloud hosts (Render, AWS, Railway) block outbound port 465.
+        // Port 587 STARTTLS works reliably without cloud firewall timeouts.
+        transporter = nodemailer.createTransport({
+          host: 'smtp.gmail.com',
+          port: 587,
+          secure: false, // false for 587 STARTTLS
+          auth: { user, pass },
+          tls: { rejectUnauthorized: false },
+          connectionTimeout: 10000,
+          greetingTimeout: 10000,
+          socketTimeout: 15000
+        });
+        console.log(`✉️ Email Transporter connected via Gmail STARTTLS (Port 587)`);
+      } else if (host) {
+        transporter = nodemailer.createTransport({
+          host,
+          port: port || 587,
+          secure: Boolean(secure),
+          auth: { user, pass },
+          tls: { rejectUnauthorized: false },
+          connectionTimeout: 10000,
+          greetingTimeout: 10000,
+          socketTimeout: 15000
+        });
+        console.log(`✉️ Email Transporter connected to SMTP: ${host}:${port || 587}`);
+      }
     } catch (err) {
       console.warn('❌ Failed to initialize email transporter:', err.message);
     }
