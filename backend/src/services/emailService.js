@@ -53,31 +53,51 @@ function getTransporter() {
   return transporter;
 }
 
+let cachedBrevoSender = null;
+
+async function getBrevoSender(apiKey) {
+  if (process.env.BREVO_SENDER_EMAIL) {
+    return { name: 'ZeroQ Virtual Queue', email: process.env.BREVO_SENDER_EMAIL };
+  }
+  if (cachedBrevoSender) return cachedBrevoSender;
+
+  try {
+    const res = await axios.get('https://api.brevo.com/v3/senders', {
+      headers: { 'api-key': apiKey },
+      timeout: 5000
+    });
+    const activeSender = res.data?.senders?.find((s) => s.active) || res.data?.senders?.[0];
+    if (activeSender && activeSender.email) {
+      cachedBrevoSender = {
+        name: activeSender.name || 'ZeroQ Virtual Queue',
+        email: activeSender.email
+      };
+      console.log(`✉️ [Brevo] Auto-detected verified sender: ${cachedBrevoSender.email}`);
+      return cachedBrevoSender;
+    }
+  } catch (err) {
+    console.warn('[Brevo] Could not auto-detect sender:', err.message);
+  }
+
+  return { name: 'ZeroQ Virtual Queue', email: config.email.user || 'rupal24porwal@gmail.com' };
+}
+
 /**
  * Send email via Brevo HTTPS REST API (Port 443 - Works seamlessly on Render & AWS)
  */
 async function sendViaBrevo({ to, subject, text, html }) {
-  const { brevoApiKey, user, from } = config.email;
+  const { brevoApiKey } = config.email;
 
   if (brevoApiKey && brevoApiKey.startsWith('xsmtpsib-')) {
     console.warn('⚠️ [Brevo Notice] The key in BREVO_API_KEY starts with "xsmtpsib-", which is an SMTP key, not a REST API key. Please generate an API Key under Brevo > "SMTP & API" > "API Keys" tab (it starts with "xkeysib-").');
   }
 
-  let senderEmail = process.env.BREVO_SENDER_EMAIL || user || 'notifications@zeroq.app';
-  let senderName = 'ZeroQ Queue';
-
-  if (from && from.includes('<') && from.includes('>')) {
-    const match = from.match(/"?([^"<]*)"?\s*<([^>]+)>/);
-    if (match) {
-      senderName = match[1].trim() || senderName;
-      senderEmail = process.env.BREVO_SENDER_EMAIL || match[2].trim() || senderEmail;
-    }
-  }
+  const sender = await getBrevoSender(brevoApiKey);
 
   const res = await axios.post(
     'https://api.brevo.com/v3/smtp/email',
     {
-      sender: { name: senderName, email: senderEmail },
+      sender: { name: sender.name, email: sender.email },
       to: [{ email: to }],
       subject,
       htmlContent: html || `<p>${text}</p>`,
