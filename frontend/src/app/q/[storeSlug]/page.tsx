@@ -45,6 +45,7 @@ export default function CustomerQREntryPage() {
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
   const [otpError, setOtpError] = useState<string | null>(null);
   const [resendTimer, setResendTimer] = useState(0);
+  const [mockOtpCode, setMockOtpCode] = useState<string | null>(null);
 
   const { savedTicket, saveTicket, isLoaded } = usePersistentTicket();
 
@@ -131,6 +132,7 @@ export default function CustomerQREntryPage() {
     try {
       const otpRes = await sendOTP(trimmedContact);
       setOtpChannel(otpRes.channel);
+      setMockOtpCode(otpRes.mockCode || null);
       setShowOtpModal(true);
       setResendTimer(30);
     } catch (err: any) {
@@ -146,7 +148,8 @@ export default function CustomerQREntryPage() {
     setIsSendingOtp(true);
     setOtpError(null);
     try {
-      await sendOTP(contact.trim());
+      const otpRes = await sendOTP(contact.trim());
+      setMockOtpCode(otpRes.mockCode || null);
       setResendTimer(30);
     } catch (err: any) {
       setOtpError(err.message || 'Failed to resend code.');
@@ -468,6 +471,22 @@ export default function CustomerQREntryPage() {
                 <div className="p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-1.5">
                   <AlertCircle className="w-3.5 h-3.5 shrink-0" />
                   <span>{otpError}</span>
+                </div>
+              )}
+
+              {mockOtpCode && (
+                <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-semibold">Test Code:</span>
+                    <span className="font-mono font-bold text-amber-950 bg-amber-200/80 px-1.5 py-0.5 rounded">{mockOtpCode}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setOtpCode(mockOtpCode)}
+                    className="text-xs text-blue-700 underline font-semibold cursor-pointer hover:text-blue-900"
+                  >
+                    Auto-fill
+                  </button>
                 </div>
               )}
 

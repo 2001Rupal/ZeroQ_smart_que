@@ -35,6 +35,8 @@ const config = {
 
   // Email / SMTP Notifications & OTP
   email: {
+    brevoApiKey: process.env.BREVO_API_KEY || '',
+    resendApiKey: process.env.RESEND_API_KEY || '',
     host: process.env.SMTP_HOST || '',
     port: parseInt(process.env.SMTP_PORT, 10) || 587,
     secure: process.env.SMTP_SECURE === 'true',
