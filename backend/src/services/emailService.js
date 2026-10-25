@@ -58,14 +58,19 @@ function getTransporter() {
  */
 async function sendViaBrevo({ to, subject, text, html }) {
   const { brevoApiKey, user, from } = config.email;
-  let senderEmail = user || 'notifications@zeroq.app';
+
+  if (brevoApiKey && brevoApiKey.startsWith('xsmtpsib-')) {
+    console.warn('⚠️ [Brevo Notice] The key in BREVO_API_KEY starts with "xsmtpsib-", which is an SMTP key, not a REST API key. Please generate an API Key under Brevo > "SMTP & API" > "API Keys" tab (it starts with "xkeysib-").');
+  }
+
+  let senderEmail = process.env.BREVO_SENDER_EMAIL || user || 'notifications@zeroq.app';
   let senderName = 'ZeroQ Queue';
 
   if (from && from.includes('<') && from.includes('>')) {
     const match = from.match(/"?([^"<]*)"?\s*<([^>]+)>/);
     if (match) {
       senderName = match[1].trim() || senderName;
-      senderEmail = match[2].trim() || senderEmail;
+      senderEmail = process.env.BREVO_SENDER_EMAIL || match[2].trim() || senderEmail;
     }
   }
 
